@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import { addTime, getAttendances, getEmployeeInfo, getPersonioToken } from "./api";
 import moment from "moment-timezone";
-import { time } from "console";
 
 export default function TrackTime() {
   const [token, setToken] = useState("");
@@ -37,7 +36,6 @@ export default function TrackTime() {
 
   function parseDateAndTime(dateString: Date | null, timezone: string = getPreferenceValues().timezone) {
     const date = moment.tz(dateString, timezone);
-    console.log(timezone);
 
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = date.format("HH:mm");
@@ -71,9 +69,6 @@ export default function TrackTime() {
       });
       return;
     }
-
-    console.log("Du hast heute von:", startdate.time, "bis", enddate.time);
-    console.log("Mit", values.breaktime, "Minuten Pause gearbeitet");
 
     if (
       await confirmAlert({
