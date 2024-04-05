@@ -16,7 +16,7 @@ export default function Attendances() {
   }, []);
 
   return (
-    <List isShowingDetail={true}>
+    <List isShowingDetail={true} isLoading={attendances.length == 0}>
       {attendances.map((attendance) => (
         <List.Item
           key={attendance.id}
