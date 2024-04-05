@@ -23,8 +23,7 @@ export default function TrackTime() {
     call();
   }, []);
 
-
-  function parseDateAndTime(dateString: string, timeZone: string = 'Europe/Berlin'): { date: string; time: string } {
+  function parseDateAndTime(dateString: string, timeZone: string =  getPreferenceValues().timeZone,): { date: string; time: string } {
     const date = moment.tz(dateString, timeZone);
   
     const formattedDate = date.format('YYYY-MM-DD');
