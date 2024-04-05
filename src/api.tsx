@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getPreferenceValues, showToast, Toast } from "@raycast/api";
+import { getPreferenceValues, popToRoot, showHUD, showToast, Toast } from "@raycast/api";
 
 const URL = "https://api.personio.de/v1";
 
@@ -51,9 +51,9 @@ export async function addTime(
   };
 
   try {
-    const response = await axios.post(url, payload, { headers });
-    await showToast({ title: "Time tracked", message: "Times uploaded successfully" });
-    return Promise.resolve(response.data);
+    axios.post(url, payload, { headers });
+    await showHUD("Time Tracked 🎉");
+    popToRoot();
   } catch (error) {
     if (axios.isAxiosError(error) && error.stack) {
       if (error.stack.includes("IncomingMessage.handleStreamEnd")) {
