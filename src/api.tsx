@@ -1,16 +1,14 @@
 import axios from "axios";
-import dotenv from "dotenv";
-import { showToast, Toast } from "@raycast/api";
+import { getPreferenceValues, showToast, Toast } from "@raycast/api";
 
-dotenv.config({ path: "path/to/your/.env"  });
 const URL = "https://api.personio.de/v1";
 
 // this function uses the secrets to get a short-lived (one day) token
 export async function getPersonioToken() {
   const url = URL + "/auth";
   const payload = {
-    client_secret: process.env.CLIENT_SECRET,
-    client_id: process.env.CLIENT_ID,
+    client_secret: getPreferenceValues().clientSecret,
+    client_id: getPreferenceValues().clientId,
   };
 
   const headers = {

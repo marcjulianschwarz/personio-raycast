@@ -48,10 +48,25 @@
       ]
     }
   ],
+  "preferences": [
+    {
+      "name": "clientId",
+      "title": "Client ID",
+      "description": "The client ID of your Personio company.",
+      "type": "textfield",
+      "required": true
+    },
+    {
+      "name": "clientSecret",
+      "title": "Client Secret",
+      "description": "The client secret of your Personio company.",
+      "type": "textfield",
+      "required": true
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.69.0",
     "axios": "^1.6.8",
-    "dotenv": "^16.4.5",
     "moment-timezone": "^0.5.45"
   },
   "devDependencies": {
