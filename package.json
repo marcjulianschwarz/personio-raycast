@@ -4,7 +4,10 @@
   "title": "Personio",
   "description": "Track your time with Personio.",
   "icon": "command-icon-1.png",
-  "author": "marcjulian_and_maxblum",
+  "author": [
+    "marcjulian",
+    "MaxB"
+  ],
   "categories": [
     "Productivity",
     "Communication"
