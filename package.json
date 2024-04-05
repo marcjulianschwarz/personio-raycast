@@ -4,7 +4,10 @@
   "title": "Personio",
   "description": "Track your time with Personio.",
   "icon": "command-icon-1.png",
-  "author": "marcjulian, MaxB",
+  "author": "boosteblume",
+  "contributors": [
+    "marcjulian"
+  ],
   "categories": [
     "Productivity",
     "Communication"
@@ -70,11 +73,26 @@
       "type": "dropdown",
       "required": true,
       "data": [
-        {"title": "Berlin/Europe", "value": "Europe/Berlin"},
-        {"title": "London/Europe", "value": "Europe/London"},
-        {"title": "New York/America", "value": "America/New_York"},
-        {"title": "Los Angeles/America", "value": "America/Los_Angeles"},
-        {"title": "Tokyo/Asia", "value": "Asia/Tokyo"}
+        {
+          "title": "Berlin/Europe",
+          "value": "Europe/Berlin"
+        },
+        {
+          "title": "London/Europe",
+          "value": "Europe/London"
+        },
+        {
+          "title": "New York/America",
+          "value": "America/New_York"
+        },
+        {
+          "title": "Los Angeles/America",
+          "value": "America/Los_Angeles"
+        },
+        {
+          "title": "Tokyo/Asia",
+          "value": "Asia/Tokyo"
+        }
       ]
     }
   ],

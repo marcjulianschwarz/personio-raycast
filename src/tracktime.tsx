@@ -34,7 +34,7 @@ export default function TrackTime() {
     call();
   }, []);
 
-  function parseDateAndTime(dateString: string, timeZone: string = getPreferenceValues().timeZone) {
+  function parseDateAndTime(dateString: Date | null, timeZone: string = getPreferenceValues().timeZone) {
     const date = moment.tz(dateString, timeZone);
 
     const formattedDate = date.format("YYYY-MM-DD");
@@ -43,8 +43,14 @@ export default function TrackTime() {
     return { date: formattedDate, time: formattedTime };
   }
 
+  interface FormValues {
+    startdate: Date | null;
+    enddate: Date | null;
+    breaktime: string;
+  }
+
   //calls the addTime function with the given values
-  const submitTime = async (values: any) => {
+  const submitTime = async (values: FormValues) => {
     const startdate = parseDateAndTime(values.startdate);
     const enddate = parseDateAndTime(values.enddate);
     const employeeNumber = getPreferenceValues().employeeNumber;
@@ -91,7 +97,7 @@ export default function TrackTime() {
             <Action.SubmitForm
               title="Submit Time"
               icon={Icon.Checkmark}
-              onSubmit={(values) => submitTime({ startdate, enddate, breaktime })}
+              onSubmit={() => submitTime({ startdate, enddate, breaktime })}
             />
             <Action title="Change Employee Number" icon={Icon.Person} onAction={openCommandPreferences} />
           </ActionPanel>
