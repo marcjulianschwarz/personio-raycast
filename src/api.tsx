@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { showToast, Toast } from "@raycast/api";
 
-dotenv.config({ path: "your/path/to/personio/.env" });
+dotenv.config({ path: "path/to/your/.env"  });
 const URL = "https://api.personio.de/v1";
 
 // this function uses the secrets to get a short-lived (one day) token
@@ -54,13 +54,13 @@ export async function addTime(
 
   try {
     const response = await axios.post(url, payload, { headers });
-    await showToast({ title: "Zeit hinzugefügt", message: "Zeit erfolgreich eingetragen!" });
+    await showToast({ title: "Time tracked", message: "Times uploaded successfully" });
     return Promise.resolve(response.data);
   } catch (error) {
     if (axios.isAxiosError(error) && error.stack) {
       if (error.stack.includes("IncomingMessage.handleStreamEnd")) {
         console.log("Caught the specific error: IncomingMessage.handleStreamEnd");
-        await showToast({ style: Toast.Style.Failure, title: "Das hat leider nicht geklappt!", message: "Schade!" });
+        await showToast({ style: Toast.Style.Failure, title: "That didn't work!", message: "Unfortunate!" });
       } else {
         // Handle other errors
         console.log("Some other Axios error occurred", error);
@@ -108,10 +108,10 @@ export async function getEmployees(token: string): Promise<Employee[]> {
     const data = res.data.data as EmployeeJSON[];
     // convert the JSON data to Employee objects
     const employees = data.map((e) => ({ id: e.attributes.id.value, name: e.attributes.preferred_name?.value }));
-    await showToast({ title: "Mitarbeiter geladen", message: `${employees.length} Mitarbeiter erfolgreich geladen!` });
+    await showToast({ title: "Employees loaded", message: `${employees.length} Loaded employees successfully!` });
     return employees;
   } catch (error) {
-    await showToast({ style: Toast.Style.Failure, title: "Das hat leider nicht geklappt!", message: "Schade!" });
+    await showToast({ style: Toast.Style.Failure, title: "That didn't work!", message: "Unfortunate!" });
     return [];
   }
 }
@@ -178,12 +178,12 @@ export async function getAttendances(employeeNumber: number, token: string): Pro
       is_on_time_off: a.attributes.is_on_time_off,
     }));
     await showToast({
-      title: "Anwesenheiten geladen",
-      message: `${attendances.length} Anwesenheiten für 2024 erfolgreich geladen!`,
+      title: "Loaded Attendances",
+      message: `${attendances.length} Attendance in 2024 loaded successfully!`,
     });
     return attendances;
   } catch (error) {
-    await showToast({ style: Toast.Style.Failure, title: "Das hat leider nicht geklappt!", message: "Schade!" });
+    await showToast({ style: Toast.Style.Failure, title: "That didn't work!", message: "Unfortunate!" });
     return [];
   }
 }

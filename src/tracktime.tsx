@@ -65,9 +65,9 @@ export default function TrackTime() {
           text={`Hi ${employeeName}\n\nTrack your time for today by specifying the start and end times of your working day and the break you took in minutes.\nPress cmd+enter to submit your time.`}
         />
         <Form.Separator />
-        <Form.DatePicker id="launchDate" title="Startzeit" value={startdate} onChange={set_startDate} />
-        <Form.DatePicker id="endDate" title="Endzeit" value={enddate} onChange={set_endDate} />
-        <Form.TextField id="breaktime" title="Pause (in Minuten)" value={breaktime} onChange={setBreak} />
+        <Form.DatePicker id="launchDate" title="Start time" value={startdate} onChange={set_startDate} />
+        <Form.DatePicker id="endDate" title="End time" value={enddate} onChange={set_endDate} />
+        <Form.TextField id="breaktime" title="Break (in minutes)" value={breaktime} onChange={setBreak} />
       </Form>
     );
   } else {
