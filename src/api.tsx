@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getPreferenceValues, popToRoot, showHUD, showToast, Toast } from "@raycast/api";
+import { getPreferenceValues, popToRoot, showHUD, showToast, Toast, Alert, confirmAlert } from "@raycast/api";
 
 const URL = "https://api.personio.de/v1";
 
@@ -49,7 +49,7 @@ export async function addTime(
     "content-type": "application/json",
     authorization: "Bearer " + token,
   };
-
+  if (await confirmAlert({title: "Are your sure?"})){
   try {
     axios.post(url, payload, { headers });
     await showHUD("Time Tracked 🎉");
@@ -58,7 +58,7 @@ export async function addTime(
     if (axios.isAxiosError(error) && error.stack) {
       if (error.stack.includes("IncomingMessage.handleStreamEnd")) {
         console.log("Caught the specific error: IncomingMessage.handleStreamEnd");
-        await showToast({ style: Toast.Style.Failure, title: "That didn't work!", message: "Unfortunate!" });
+        await showToast({ style: Toast.Style.Failure, title: "That didn't work!"});
       } else {
         // Handle other errors
         console.log("Some other Axios error occurred", error);
@@ -67,8 +67,13 @@ export async function addTime(
       console.log("An error occurred that is not an Axios error", error);
     }
   }
-}
+} else {
+  await showToast({ style: Toast.Style.Failure, title: "Submit was cancelled!", message: "Unfortunate!" });
+  
 
+
+}
+}
 // the JSON structure returned by the personio API
 export interface EmployeeJSON {
   type: string;
