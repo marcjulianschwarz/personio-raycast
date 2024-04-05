@@ -4,7 +4,7 @@
 
 ## First start:
 You need to have your companies personio _clientid_ & _clientsecret_.
-These can be obtained by your personio admin [Personio][https://developer.personio.de/docs/getting-started-with-the-personio-api?ref=intro]
+These can be obtained by your personio admin [Personio](https://developer.personio.de/docs/getting-started-with-the-personio-api?ref=intro).
 
 Next step is to set a timezone from the dropdown menu. 
 (If your timezone is not listed contact @marcjulian or @boosteblume.)
