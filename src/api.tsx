@@ -177,7 +177,7 @@ export async function getAttendances(employeeNumber: number, token: string): Pro
     }));
     await showToast({
       title: "Loaded Attendances",
-      message: `${attendances.length} Attendance in 2024 loaded successfully!`,
+      message: `${attendances.length} Attendances in 2024 loaded successfully!`,
     });
     return attendances;
   } catch (error) {
