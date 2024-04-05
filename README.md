@@ -1,4 +1,6 @@
-# Personio Raycast Extension - Track your time with Personio.
+# Personio Raycast Extension
+
+Track your time for [Personio](https://www.personio.de/) right from whithin Raycast.
 
 ## First start:
 
