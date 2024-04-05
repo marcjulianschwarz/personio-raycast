@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getPreferenceValues, popToRoot, showHUD, showToast, Toast, Alert, confirmAlert } from "@raycast/api";
+import { getPreferenceValues, popToRoot, showHUD, showToast, Toast} from "@raycast/api";
 
 const URL = "https://api.personio.de/v1";
 
