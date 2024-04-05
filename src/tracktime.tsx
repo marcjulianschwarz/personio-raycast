@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { addTime, getAttendances, getEmployeeInfo, getPersonioToken } from "./api";
 import moment from "moment-timezone";
+import { time } from "console";
 
 export default function TrackTime() {
   const [token, setToken] = useState("");
@@ -34,12 +35,12 @@ export default function TrackTime() {
     call();
   }, []);
 
-  function parseDateAndTime(dateString: Date | null, timeZone: string = getPreferenceValues().timeZone) {
-    const date = moment.tz(dateString, timeZone);
+  function parseDateAndTime(dateString: Date | null, timezone: string = getPreferenceValues().timezone) {
+    const date = moment.tz(dateString, timezone);
+    console.log(timezone);
 
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = date.format("HH:mm");
-
     return { date: formattedDate, time: formattedTime };
   }
 
@@ -54,7 +55,6 @@ export default function TrackTime() {
     const startdate = parseDateAndTime(values.startdate);
     const enddate = parseDateAndTime(values.enddate);
     const employeeNumber = getPreferenceValues().employeeNumber;
-    console.log(startdate);
     if (startdate.date == "Invalid date" || startdate.time == "Invalid date") {
       await showToast({
         style: Toast.Style.Failure,
@@ -72,8 +72,7 @@ export default function TrackTime() {
       return;
     }
 
-    console.log("Du hast heute von:");
-    console.log(startdate.time, "bis", enddate.time);
+    console.log("Du hast heute von:", startdate.time, "bis", enddate.time);
     console.log("Mit", values.breaktime, "Minuten Pause gearbeitet");
 
     if (
