@@ -18,7 +18,7 @@ export default function TrackTime() {
   const [token, setToken] = useState("");
   const [startdate, set_startDate] = useState<Date | null>(null);
   const [enddate, set_endDate] = useState<Date | null>(null);
-  const [breaktime, setBreak] = useState<string>("");
+  const [breaktime, setBreak] = useState<string>("0");
 
   const [employeeName, setEmployeeName] = useState("");
 
@@ -48,9 +48,28 @@ export default function TrackTime() {
     const startdate = parseDateAndTime(values.startdate);
     const enddate = parseDateAndTime(values.enddate);
     const employeeNumber = getPreferenceValues().employeeNumber;
+    console.log(startdate);
+    if (startdate.date == "Invalid date" || startdate.time == "Invalid date") {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Error",
+        message: "You must add a valid start time.",
+      });
+      return;
+    }
+    if (enddate.date == "Invalid date" || enddate.time == "Invalid date") {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Error",
+        message: "You must add a valid end time.",
+      });
+      return;
+    }
+
     console.log("Du hast heute von:");
     console.log(startdate.time, "bis", enddate.time);
     console.log("Mit", values.breaktime, "Minuten Pause gearbeitet");
+
     if (
       await confirmAlert({
         title: "Are your sure?",
