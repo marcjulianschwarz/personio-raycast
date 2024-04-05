@@ -1,7 +1,18 @@
-import { Action, ActionPanel, Detail, Form, Icon, getPreferenceValues, openCommandPreferences } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Detail,
+  Form,
+  Icon,
+  Toast,
+  confirmAlert,
+  getPreferenceValues,
+  openCommandPreferences,
+  showToast,
+} from "@raycast/api";
 import { useEffect, useState } from "react";
 import { addTime, getAttendances, getEmployeeInfo, getPersonioToken } from "./api";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 
 export default function TrackTime() {
   const [token, setToken] = useState("");
@@ -23,25 +34,33 @@ export default function TrackTime() {
     call();
   }, []);
 
-  function parseDateAndTime(dateString: string, timeZone: string =  getPreferenceValues().timeZone,): { date: string; time: string } {
+  function parseDateAndTime(dateString: string, timeZone: string = getPreferenceValues().timeZone) {
     const date = moment.tz(dateString, timeZone);
-  
-    const formattedDate = date.format('YYYY-MM-DD');
-    const formattedTime = date.format('HH:mm');
-  
+
+    const formattedDate = date.format("YYYY-MM-DD");
+    const formattedTime = date.format("HH:mm");
+
     return { date: formattedDate, time: formattedTime };
   }
-  
 
   //calls the addTime function with the given values
-  const submitTime = (values: any) => {
+  const submitTime = async (values: any) => {
     const startdate = parseDateAndTime(values.startdate);
     const enddate = parseDateAndTime(values.enddate);
     const employeeNumber = getPreferenceValues().employeeNumber;
     console.log("Du hast heute von:");
     console.log(startdate.time, "bis", enddate.time);
     console.log("Mit", values.breaktime, "Minuten Pause gearbeitet");
-    addTime(employeeNumber, startdate.date, startdate.time, enddate.time, parseInt(values.breaktime), token);
+    if (
+      await confirmAlert({
+        title: "Are your sure?",
+        message: `Do you want to submit the time from ${startdate.time} to ${enddate.time} with a break of ${values.breaktime} minutes?`,
+      })
+    ) {
+      addTime(employeeNumber, startdate.date, startdate.time, enddate.time, parseInt(values.breaktime), token);
+    } else {
+      await showToast({ style: Toast.Style.Failure, title: "Submit was cancelled!", message: "Unfortunate!" });
+    }
   };
 
   if (token) {
