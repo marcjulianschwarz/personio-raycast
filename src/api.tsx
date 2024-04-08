@@ -1,11 +1,23 @@
 import axios from "axios";
-import { getPreferenceValues, popToRoot, showHUD, showToast, Toast } from "@raycast/api";
+import { Cache, getPreferenceValues, popToRoot, showHUD, showToast, Toast } from "@raycast/api";
 
 const URL = "https://api.personio.de/v1";
+const cache = new Cache();
 
-// this function uses the secrets to get a short-lived (one day) token
-export async function getPersonioToken() {
+interface PersonioToken {
+  token: string;
+  createdAt: string;
+}
+
+function getHoursBetweenDates(date1: Date, date2: Date): number {
+  const diffInMilliseconds = Math.abs(date2.getTime() - date1.getTime());
+  return diffInMilliseconds / (1000 * 60 * 60);
+}
+
+async function getTokenFromAPI() {
+  console.log("Retrieving token from API");
   const url = URL + "/auth";
+
   const payload = {
     client_secret: getPreferenceValues().clientSecret,
     client_id: getPreferenceValues().clientId,
@@ -19,7 +31,67 @@ export async function getPersonioToken() {
   const res = await axios.post(url, payload, { headers });
   const data = res.data;
   const token = data.data.token;
+
   return token;
+}
+
+function setTokenInCache(token: string) {
+  console.log("Saving token to cache");
+  cache.set(
+    "personioToken",
+    JSON.stringify({
+      token: token,
+      createdAt: new Date().toString(),
+    }),
+  );
+}
+
+// this function uses the secrets to get a short-lived (one day) token
+export async function getPersonioToken(caching = true) {
+  if (!caching) {
+    console.log("Ignoring caching");
+    console.time("tapi");
+    const token = await getTokenFromAPI();
+    console.timeEnd("tapi");
+    return token;
+  }
+
+  console.time("tcache");
+  const cacheDataToken = cache.get("personioToken");
+  console.log("Retrieving token");
+
+  if (cacheDataToken) {
+    console.log("there is a token in cache");
+    const personioToken = JSON.parse(cacheDataToken) as PersonioToken;
+
+    // Calculate whether the token is about to expire
+    // if it is about to expire -> get a new token and save it to the cache
+    // otherwise use the token retrieved from cache
+    console.log("calculate expiration date of token");
+    const now = new Date();
+    const createdAt = new Date(personioToken.createdAt);
+    const timeDiff = getHoursBetweenDates(now, createdAt);
+    console.log("hours since token creation: " + timeDiff.toString());
+
+    if (timeDiff > 22) {
+      console.log("Token is about to expire.");
+      const token = await getTokenFromAPI();
+      setTokenInCache(token);
+      console.timeEnd("tcache");
+      return token;
+    } else {
+      console.log("Got Token from cache directly.");
+      const token = personioToken.token;
+      console.timeEnd("tcache");
+      return token;
+    }
+  } else {
+    console.log("There is no token in cache");
+    const token = await getTokenFromAPI();
+    setTokenInCache(token);
+    console.timeEnd("tcache");
+    return token;
+  }
 }
 
 export async function addTime(
