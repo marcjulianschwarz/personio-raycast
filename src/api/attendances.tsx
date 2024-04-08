@@ -93,13 +93,14 @@ export async function getAttendances(
   currentYear: string,
   selectedMonth: string,
 ) {
-  const attendances = cache.get("attendances");
+  const key = employeeNumber.toString() + currentYear + selectedMonth;
+  const attendances = cache.get(key);
 
   if (attendances) {
     return JSON.parse(attendances) as AttendancePeriod[];
   } else {
     const attendances = await getAttendancesAPI(employeeNumber, token, currentYear, selectedMonth);
-    cache.set("attendances", JSON.stringify(attendances), 23 * 60);
+    cache.set(key, JSON.stringify(attendances), 23 * 60);
     return attendances;
   }
 }
