@@ -11,7 +11,7 @@ import {
   showToast,
 } from "@raycast/api";
 import { useEffect, useState } from "react";
-import { addTime, getAttendances, getEmployeeInfo, getPersonioToken } from "./api";
+import { addTime, getEmployeeInfo, getPersonioToken } from "./api";
 import moment from "moment-timezone";
 
 export default function TrackTime() {
@@ -27,7 +27,6 @@ export default function TrackTime() {
       const token = await getPersonioToken();
       const employeeNumber = getPreferenceValues().employeeNumber;
       const employeeName = await getEmployeeInfo(employeeNumber, token);
-      getAttendances(employeeNumber, token);
       setEmployeeName(employeeName);
       setToken(token);
     }

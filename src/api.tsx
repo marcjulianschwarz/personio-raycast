@@ -146,12 +146,23 @@ export interface AttendancePeriod {
   is_on_time_off: boolean;
 }
 
-export async function getAttendances(employeeNumber: number, token: string): Promise<AttendancePeriod[]> {
+function daysInMonth(year: number, month: number) {
+  return new Date(year, month, 0).getDate();
+}
+
+export async function getAttendances(
+  employeeNumber: number,
+  token: string,
+  currentYear: string,
+  selectedMonth: string,
+): Promise<AttendancePeriod[]> {
+  const maxDays = daysInMonth(parseInt(currentYear), parseInt(selectedMonth));
+
   const url =
     URL +
     "/company/attendances?employees[]=" +
     employeeNumber +
-    "&start_date=2024-01-01&end_date=2024-12-31&includePending=true";
+    `&start_date=${currentYear}-${selectedMonth}-01&end_date=${currentYear}-${selectedMonth}-${maxDays}&includePending=true`;
   const headers = {
     accept: "application/json",
     authorization: "Bearer " + token,
@@ -181,6 +192,7 @@ export async function getAttendances(employeeNumber: number, token: string): Pro
     return attendances;
   } catch (error) {
     await showToast({ style: Toast.Style.Failure, title: "That didn't work!", message: "Unfortunate!" });
+    console.log(error);
     return [];
   }
 }
