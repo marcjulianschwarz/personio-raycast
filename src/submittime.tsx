@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { addTime, getPersonioToken } from "./api/api";
 import moment from "moment-timezone";
 import { getEmployeeInfo } from "./api/employeeinfo";
-import { cache } from "./api/cache";
 
 export default function TrackTime() {
   const [token, setToken] = useState("");
@@ -31,28 +30,13 @@ export default function TrackTime() {
       const employeeName = await getEmployeeInfo(employeeNumber, token);
       setEmployeeName(employeeName);
       setToken(token);
-
-      const fetchCachedDate = async () => {
-        const cachedDate = cache.get("startDate");
-        if (cachedDate) {
-          set_startDate(new Date(cachedDate));
-        }
-      };
-      fetchCachedDate();
-
-      const fetchCachedBreak = async () => {
-        const cachedBreak = cache.get("breaktime");
-        if (cachedBreak) {
-          setBreak(cachedBreak);
-        }
-      };
-      fetchCachedBreak();
     }
     call();
   }, []);
 
-  function parseDateAndTime(dateString: Date | null, timezone: string = getPreferenceValues().timezone || 'UTC') {
+  function parseDateAndTime(dateString: Date | null, timezone: string = getPreferenceValues().timezone) {
     const date = moment.tz(dateString, timezone);
+
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = date.format("HH:mm");
     return { date: formattedDate, time: formattedTime };
@@ -62,17 +46,6 @@ export default function TrackTime() {
     startdate: Date | null;
     enddate: Date | null;
     breaktime: string;
-  }
-
-  //caches the StartTime
-  const cacheStartDate = async (values:FormValues) => {
-    const Stringdate = values.startdate ? values.startdate.toISOString(): "";
-    cache.set("startDate", Stringdate, 14 * 60); 
-  }
-
-    //caches the Break Time
-  const cacheBreak = async (values:FormValues) => {
-    cache.set("breaktime", values.breaktime, 10 * 60);
   }
 
   //calls the addTime function with the given values
@@ -118,25 +91,26 @@ export default function TrackTime() {
             <Action.SubmitForm
               title="Submit Time"
               icon={Icon.Checkmark}
-              onSubmit={() => submitTime({ startdate, enddate, breaktime })}/>
+              onSubmit={() => submitTime({ startdate, enddate, breaktime })}
+            />
             <Action title="Change Employee Number" icon={Icon.Person} onAction={openCommandPreferences} />
           </ActionPanel>
         }
       >
         <Form.Description
           title=""
-          text={`Hi ${employeeName}\n\nTrack your time for today by specifying the start and end times of your working day and the break you took in minutes.\nPress cmd+enter to submit your time.`}
+          text={`Hi ${employeeName}\n\nTrack your times by specifying the start and end times of the corresponding day and the break you took in minutes.\nPress cmd+enter to submit your time.`}
         />
         <Form.Separator />
-        <Form.DatePicker id="launchDate" title="Start time" value={startdate} onChange={(newDate) => {set_startDate(newDate);
-          cacheStartDate({startdate: newDate, enddate, breaktime});}}/>
+        <Form.DatePicker id="launchDate" title="Start time" value={startdate} onChange={set_startDate} />
         <Form.DatePicker id="endDate" title="End time" value={enddate} onChange={set_endDate} />
-        <Form.TextField id="breaktime" title="Break (in minutes)" value={breaktime} onChange={(newBreak) => {setBreak(newBreak);
-          cacheBreak({startdate, enddate, breaktime: newBreak});}} />
+        <Form.TextField id="breaktime" title="Break (in minutes)" value={breaktime} onChange={setBreak} />
       </Form>
-  
     );
   } else {
     return <Detail isLoading={true} />;
   }
 }
+
+
+// Change Text in funcition

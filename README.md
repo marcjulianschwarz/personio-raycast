@@ -25,4 +25,12 @@ This command lists your attendances entered in personio in the current year.
 
 ### Track Time
 
-This command can be used to upload your times to personio. It requires a **start_time**, **end_time** and **break_time**
+This command can be used to upload your times to personio.
+You can note your times during the day and submit them at the end of the day.
+It requires a **start_time**, **end_time** and **break_time**
+
+### Submit Time
+
+This command can be used to upload your times to personio.
+It should be used to upload time windows in the past. 
+It requires a **start_time**, **end_time** and **break_time**.
