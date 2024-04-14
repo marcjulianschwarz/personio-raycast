@@ -2,35 +2,27 @@
 
 Track your time for [Personio](https://www.personio.de/) right from whithin Raycast.
 
-## First start:
+## Getting Started
 
-You need to have your companies personio _clientid_ & _clientsecret_.
-These can be obtained by your personio admin [Personio](https://developer.personio.de/docs/getting-started-with-the-personio-api?ref=intro).
+1. Obtain your company's Personio **client id** and **client secret** by asking your Personio admin. See [Personio API Reference](https://developer.personio.de/docs/getting-started-with-the-personio-api?ref=intro) for more info.
+2. Select a timezone from the dropdown menu (create an issue if your timezone is not there yet)
+3. Use the `Find Employee` command to copy your own **employee id** (press cmd + k an select copy).
+4. Enter your employee id when you use the other commands of the extension
 
-Next step is to set a timezone from the dropdown menu.
-(If your timezone is not listed contact @marcjulian or @boosteblume.)
-
-Last step is to use the 'Find Employee' function and copy your _employeeid_.
-You will need your _employeeid_ the first time you start the other functions.
-
-## Commands:
+## Commands
 
 ### Find Employee Number
 
-This command can be used to identify your _employeeid_.
+Use this command to find your employee number.
 
 ### Attendances
 
-This command lists your attendances entered in personio in the current year.
+This command lists your attendances entered in Personio in the current year. You can select a month from the dropdown menu (cmd + p).
 
 ### Track Time
 
-This command can be used to upload your times to personio.
-You can note your times during the day and submit them at the end of the day.
-It requires a **start_time**, **end_time** and **break_time**
+Use this command to track your times during the workday. You can enter a start time and break whenever you want. If you leave the command it will remember your entries and you can come back to them when the day ends. Then simply enter an end time and submit.
 
 ### Submit Time
 
-This command can be used to upload your times to personio.
-It should be used to upload time windows in the past. 
-It requires a **start_time**, **end_time** and **break_time**.
+Use this command when you want to directly enter an attendance period (e.g. for a past day).
