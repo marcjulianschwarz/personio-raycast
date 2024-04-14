@@ -1,18 +1,6 @@
-import {
-  Action,
-  ActionPanel,
-  Detail,
-  Form,
-  Icon,
-  Toast,
-  confirmAlert,
-  getPreferenceValues,
-  openCommandPreferences,
-  showToast,
-} from "@raycast/api";
+import { Action, ActionPanel, Detail, Form, Icon, getPreferenceValues, openCommandPreferences } from "@raycast/api";
 import { useEffect, useState } from "react";
-import { addTime, getPersonioToken } from "./api/api";
-import moment from "moment-timezone";
+import { getPersonioToken, submitTime } from "./api/api";
 import { getEmployeeInfo } from "./api/employeeinfo";
 
 export default function TrackTime() {
@@ -34,54 +22,6 @@ export default function TrackTime() {
     call();
   }, []);
 
-  function parseDateAndTime(dateString: Date | null, timezone: string = getPreferenceValues().timezone) {
-    const date = moment.tz(dateString, timezone);
-
-    const formattedDate = date.format("YYYY-MM-DD");
-    const formattedTime = date.format("HH:mm");
-    return { date: formattedDate, time: formattedTime };
-  }
-
-  interface FormValues {
-    startdate: Date | null;
-    enddate: Date | null;
-    breaktime: string;
-  }
-
-  //calls the addTime function with the given values
-  const submitTime = async (values: FormValues) => {
-    const startdate = parseDateAndTime(values.startdate);
-    const enddate = parseDateAndTime(values.enddate);
-    const employeeNumber = getPreferenceValues().employeeNumber;
-    if (startdate.date == "Invalid date" || startdate.time == "Invalid date") {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: "Error",
-        message: "You must add a valid start time.",
-      });
-      return;
-    }
-    if (enddate.date == "Invalid date" || enddate.time == "Invalid date") {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: "Error",
-        message: "You must add a valid end time.",
-      });
-      return;
-    }
-
-    if (
-      await confirmAlert({
-        title: "Are your sure?",
-        message: `Do you want to submit the time from ${startdate.time} to ${enddate.time} with a break of ${values.breaktime} minutes?`,
-      })
-    ) {
-      addTime(employeeNumber, startdate.date, startdate.time, enddate.time, parseInt(values.breaktime), token);
-    } else {
-      await showToast({ style: Toast.Style.Failure, title: "Submit was cancelled!", message: "Unfortunate!" });
-    }
-  };
-
   if (token) {
     return (
       <Form
@@ -91,7 +31,7 @@ export default function TrackTime() {
             <Action.SubmitForm
               title="Submit Time"
               icon={Icon.Checkmark}
-              onSubmit={() => submitTime({ startdate, enddate, breaktime })}
+              onSubmit={() => submitTime({ startdate, enddate, breaktime }, token)}
             />
             <Action title="Change Employee Number" icon={Icon.Person} onAction={openCommandPreferences} />
           </ActionPanel>
@@ -111,6 +51,5 @@ export default function TrackTime() {
     return <Detail isLoading={true} />;
   }
 }
-
 
 // Change Text in funcition
