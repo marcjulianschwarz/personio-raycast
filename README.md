@@ -23,6 +23,9 @@ This command lists your attendances entered in Personio in the current year. You
 
 Use this command to track your times during the workday. You can enter a start time and break whenever you want. If you leave the command it will remember your entries and you can come back to them when the day ends. Then simply enter an end time and submit.
 
-### Submit Time
+### Add Past Times
 
 Use this command when you want to directly enter an attendance period (e.g. for a past day).
+__Use Case:__
+You began your day by entering a start time in the _Track Time_ function. It has come to your attention that you neglected to submit your time for yesterday. You can now rectify this oversight by using the _Add Past Times_ function, which allows you to log past hours without affecting your current entry.
+

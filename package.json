@@ -31,8 +31,8 @@
     },
     {
       "name": "submittime",
-      "title": "Submit Time",
-      "description": "Submit your times to Personio.",
+      "title": "Add Past Times",
+      "description": "Submit your past times to personio.",
       "mode": "view",
       "preferences": [
         {

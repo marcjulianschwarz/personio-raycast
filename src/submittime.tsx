@@ -39,7 +39,7 @@ export default function TrackTime() {
       >
         <Form.Description
           title=""
-          text={`Hi ${employeeName}\n\nTrack your times by specifying the start and end times of the corresponding day and the break you took in minutes.\nPress cmd+enter to submit your time.`}
+          text={`Hi ${employeeName},\nSubmit your past times here.\nPress cmd+enter to submit your time.`}
         />
         <Form.Separator />
         <Form.DatePicker id="launchDate" title="Start time" value={startdate} onChange={set_startDate} />
