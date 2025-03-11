@@ -1,5 +1,8 @@
 # Personio Changelog
 
+## [Enhancement] - 2025-03-07
+Added AI commands for the attendance and to upload working times
+
 ## [Enhancement] - 2025-03-03
 
 Added the selected month to the loading message in attendances

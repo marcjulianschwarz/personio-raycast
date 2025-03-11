@@ -19,32 +19,14 @@
       "title": "Track Time",
       "subtitle": "Personio",
       "description": "Track your time during the day.",
-      "mode": "view",
-      "preferences": [
-        {
-          "name": "employeeNumber",
-          "title": "Employee Number",
-          "description": "The employee number of the person you want to track time for.",
-          "type": "textfield",
-          "required": true
-        }
-      ]
+      "mode": "view"
     },
     {
       "name": "addPastTimesCommand",
       "title": "Add Past Times",
       "subtitle": "Personio",
       "description": "Submit your past times to personio.",
-      "mode": "view",
-      "preferences": [
-        {
-          "name": "employeeNumber",
-          "title": "Employee Number",
-          "description": "The employee number of the person you want to track time for.",
-          "type": "textfield",
-          "required": true
-        }
-      ]
+      "mode": "view"
     },
     {
       "name": "findEmployeeNumberCommand",
@@ -58,16 +40,19 @@
       "title": "Attendances",
       "subtitle": "Personio",
       "description": "Get the attendances of a person in Personio.",
-      "mode": "view",
-      "preferences": [
-        {
-          "name": "employeeNumber",
-          "title": "Employee Number",
-          "description": "The employee number of the person you want to get the attendances for.",
-          "type": "textfield",
-          "required": true
-        }
-      ]
+      "mode": "view"
+    }
+  ],
+  "tools": [
+    {
+      "name": "upload-work-time",
+      "title": "Upload work time",
+      "description": "This AI command enables you to upload todays work hours and all the work hours from the past."
+    },
+    {
+      "name": "show-attendances",
+      "title": "Show Attendances",
+      "description": "Show me all attendances in a giving time"
     }
   ],
   "preferences": [
@@ -84,6 +69,31 @@
       "description": "The client secret of your Personio company.",
       "type": "textfield",
       "required": true
+    },
+    {
+      "name": "model",
+      "title": "AI Model",
+      "description": "The AI model to use (optional)",
+      "type": "dropdown",
+      "required": false,
+      "default": "gpt-4",
+      "data": [
+        {
+          "title": "GPT-4",
+          "value": "gpt-4"
+        },
+        {
+          "title": "Claude",
+          "value": "claude"
+        }
+      ]
+    },
+    {
+      "name": "employeeNumber",
+      "title": "Employee Number",
+      "description": "The employee number of the person you want to track time for.",
+      "type": "textfield",
+      "required": false
     },
     {
       "name": "timezone",
@@ -240,12 +250,11 @@
           "title": "Etc/GMT-9",
           "value": "Etc/GMT-9"
         }
-
       ]
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.69.0",
+    "@raycast/api": "^1.93.1",
     "axios": "^1.6.8",
     "moment-timezone": "^0.5.45"
   },
