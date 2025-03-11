@@ -20,11 +20,11 @@ type Input = {
    */
   breakTime: string;
   /**
-   * The beginning of the users working day
+   * The beginning of the users working day, change it to the following format HH:MM
    */
   startTime: string;
   /**
-   * The end of the users working day
+   * The end of the users working day, change it to the following format HH:MM
    */
   endTime: string;
 };
@@ -56,11 +56,10 @@ export default async function tool(input: Input) {
     const employeeName = await getEmployeeInfo(employeeNumber);
 
     const today = new Date(input.day);
-    const startDate = new Date(today);
-    startDate.setHours(9, 0, 0, 0); // 9:00 AM
+
+    const startDate = new Date(`${input.day}T${input.startTime}`);
     
-    const endDate = new Date(today);
-    endDate.setHours(17, 0, 0, 0); // 5:00 PM
+    const endDate = new Date(`${input.day}T${input.endTime}`);
 
     const breakTime = input.breakTime
     
