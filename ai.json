@@ -1,6 +1,28 @@
 {
-    "ai": {
-      "instructions": "When you don't know the user's first name, ask for it."
-    }
+  "ai": {
+    "instructions": "When the user gives you multiple days, start multiple calls to the API and don't put both days in one call! Process each day as a separate API request to ensure proper handling of individual dates. For example, if the user mentions working hours for Monday and Tuesday, make two distinct API calls rather than combining them. This approach prevents errors in date processing and ensures each day's data is correctly recorded in the system. Always confirm each day's submission separately to provide clear feedback to the user.",
+    "evals": [
+      {
+        "input": "@personio 8-17 und 50min pause",
+        "mocks": {
+          "upload-work-time": {
+            "message": "I have uploaded the times for you Max Blum"
+          }
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "arguments": {
+                "breakTime": "50",
+                "day": "2025-03-12",
+                "endTime": "17:00",
+                "startTime": "08:00"
+              },
+              "name": "upload-work-time"
+            }
+          }
+        ]
+      }
+    ]
   }
-  
+}
