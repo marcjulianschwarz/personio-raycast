@@ -16,7 +16,7 @@ type Input = {
    */
   day: string;
   /**
-   * The duration of the break the user took on that day
+   * The duration of the break the user took on that day given in minutes.
    */
   breakTime: string;
   /**
@@ -61,7 +61,7 @@ export default async function tool(input: Input) {
     
     const endDate = new Date(`${input.day}T${input.endTime}`);
 
-    const breakTime = input.breakTime
+    const breakTime = input.breakTime || "60"
     
     // Submit time directly
     await submitTime({
@@ -69,7 +69,7 @@ export default async function tool(input: Input) {
       endDate,
       breakTime,
     });
-
+    
 
     return {message: `I have uploaded the times for you ${employeeName}`};
 
